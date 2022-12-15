@@ -1,1 +1,75 @@
-<p>dinamics works!</p>
+<h2>Reactivos: Dinámicos</h2>
+<hr>
+
+<form (ngSubmit)="save()" autocomplete="off" [formGroup]="myForm">
+    <!-- nombre -->
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+            <input type="text" 
+                    class="form-control" 
+                    formControlName="nombre"
+                    placeholder="Nombre de la persona" 
+            >
+            <span *ngIf="invalidInput('nombre')" class="form-text text-danger">
+                Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+<!-- añadir fav -->
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Añadir</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input type="text" 
+                        class="form-control" 
+                        [formControl]="newFav"
+                        placeholder="Añadir favorito" 
+                        (keyup.enter)="addFav()"
+                >
+                <button class="btn btn-outline-primary" type="button" (click)="addFav()">Añadir</button>
+            </div>
+            
+        </div>
+    </div>
+<!-- lista de juegos favs-->
+<div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Favoritos</label>
+    <div class="col-sm-9" formArrayName="favoritos">
+        <div *ngFor="let fav of favoritosArr.controls; let i = index" class="input-group mb-1">
+            <input class="form-control"
+                    [formControlName]="i" 
+            >
+            <button class="btn btn-outline-danger" 
+                    type="button" 
+                    (click)="delete(i)">
+                Eliminar
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button  type="submit"  
+                    class="btn btn-primary float-end">
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<span>Valid</span>
+<pre>{{myForm.valid}}</pre>
+<br>
+<span>Value</span>
+<pre>{{myForm.value | json}}</pre>
+<br>
+<span>Añadir juego</span>
+<pre>{{newFav.valid}}</pre>
+<br>
+<span>Añadir juego</span>
+<pre>{{newFav.value}}</pre>
